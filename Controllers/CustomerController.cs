@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreAPI.Dtos;
@@ -57,12 +58,14 @@ namespace NetCoreAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _repository.GetById(id);
             if (entity == null)
                 return NotFound("Entidade não encontrada");
 
+            await _repository.Delete(entity);
             return Ok();
 
         }

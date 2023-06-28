@@ -31,8 +31,7 @@ namespace NetCoreAPI.Repositories
 
         public async Task<T> GetById(long id)
         {
-            var result = await _context.Set<T>().Where(x => x.Id == id).FirstOrDefaultAsync();
-            return result;
+            return await _context.Set<T>().Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<T> Update(T entity)
