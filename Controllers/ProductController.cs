@@ -28,7 +28,6 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> Get(int id)
     {
         var result = await _repository.GetById(id);
