@@ -24,7 +24,9 @@ namespace NetCoreAPI.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
         }
+
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterUser(Login login)
         {
             IdentityUser user = new IdentityUser() { UserName = login.UserName };
