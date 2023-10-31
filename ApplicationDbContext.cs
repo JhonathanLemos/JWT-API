@@ -5,7 +5,7 @@ using NetCoreAPI.Models;
 
 namespace NetCoreAPI
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -17,6 +17,7 @@ namespace NetCoreAPI
 
         public DbSet<Product> Produtos { get; set; }
         public DbSet<Customer> Clientes { get; set; }
+        public DbSet<User> Usuarios { get; set; }
     }
 
 }

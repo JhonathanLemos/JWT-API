@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NetCoreAPI.Models
 {
@@ -6,6 +7,7 @@ namespace NetCoreAPI.Models
     {
         public string NomeCliente { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<Product> Produtos { get; set; }
     }
 }

@@ -15,10 +15,10 @@ namespace NetCoreAPI.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public LoginController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,12 +29,14 @@ namespace NetCoreAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterUser(Login login)
         {
-            IdentityUser user = new IdentityUser() { UserName = login.UserName };
+            User user = new User() { UserName = login.UserName };
             var result = await _userManager.CreateAsync(user, login.Password);
             if (result.Succeeded)
                 return Ok(result);
-
-            return BadRequest(result.Errors);
+            else
+            {
+                return BadRequest(result.TranslateErrors());
+            }
         }
 
         [HttpPost]
@@ -75,5 +77,18 @@ namespace NetCoreAPI.Controllers
             await _signInManager.SignOutAsync();
             return Ok();
         }
+
+        //public async Task GenerateCodeToValidateUser(UserDto user)
+        //{
+        //    Random random = new Random();
+        //    int randomNumber = random.Next(100000, 999999);
+        //    string randomCode = randomNumber.ToString("D6");
+
+        //    var emailCodeDto = new EmailCodeDto() { Code = randomCode, UserId = user.Id };
+        //    var emailCode = _objectMapper.Map<EmailCode>(emailCodeDto);
+        //    await _emailCodeRepository.InsertAsync(emailCode);
+        //    await _identidadeService.SendEmailAsync(user, randomCode, Properties.Resources.SubjectEmail, Properties.Resources.bodyEmailCode);
+
+        //}
     }
 }

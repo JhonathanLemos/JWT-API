@@ -9,9 +9,13 @@ namespace NetCoreAPI.Mappers
     {
         public ProductProfile()
         {
-            CreateMap<ProductDto, Product>();
-            CreateMap<ProductDto, IActionResult>();
-            CreateMap<Product, ProductDto>();
+            CreateMap<ProductDto, Product>()
+                .ForMember(x => x.Customer, opt => opt.Ignore());
+            CreateMap<Product, ProductDto>()
+                .ForMember(x => x.CustomerNome, opt => opt.MapFrom(x => x.Customer.NomeCliente));
+            CreateMap<CreateProductDto, Product>();
+
+
         }
     }
 }
